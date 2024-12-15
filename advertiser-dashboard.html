@@ -2,6 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Дашборд рекламодателя - Boost X</title>
     <style>
         body {
@@ -218,6 +219,69 @@
             width: 80%;
         }
     }
+            .header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 15px;
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-details p {
+    margin: 0;
+}
+
+#userName {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #333;
+}
+
+#userEmail {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.forgot-password {
+    color: red; 
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+}
+
+/* Стили для самой диаграммы */
+canvas {
+    max-width: 100%;
+    max-height: 400px;  /* Ограничиваем высоту */
+    margin: 0 auto; /* Центрируем */
+    display: block;  /* Убираем лишние пробелы вокруг диаграммы */
+}
+
     </style>
 </head>
 <body>
@@ -226,23 +290,39 @@
         <div class="header">
             <h2>Дашборд рекламодателя</h2>
             <p>Просмотр статистики по офферам и затратам</p>
-        </div>
-
-        <div class="stats">
-            <div class="stat-box">
-                <h3>Клики</h3>
-                <p id="clicks">0</p>
+               </div>
+        <div class="user-info">
+          <div class="user-avatar">
+                <img src="" alt="User Avatar" id="userAvatar">
             </div>
-            <div class="stat-box">
-                <h3>Конверсии</h3>
-                <p id="conversions">0</p>
-            </div>
-            <div class="stat-box">
-                <h3>Затраты</h3>
-                <p id="expenses">$0</p>
-            </div>   
-        </div>
 
+          <div class="user-details">
+                <p id="userName">Ваше имя пользователя</p>
+                <p id="userEmail">Ваш email</p>
+                <p>Вы вошли как рекламодатель. <a href="login.html" class="forgot-password">Выйти</a></p>
+            </div>
+        </div>
+      
+    <div class="stats">
+        <div class="stat-box">
+            <h3>Клики</h3>
+            <p id="clicks">0</p>
+        </div>
+        <div class="stat-box">
+            <h3>Конверсии</h3>
+            <p id="conversions">0</p>
+        </div>
+        <div class="stat-box">
+            <h3>Затраты</h3>
+            <p id="expenses">$0</p>
+        </div>
+    </div>
+      
+                <!-- Диаграмма -->
+    <div class="chart-container">
+        <canvas id="statsChart" width="400" height="400"></canvas>
+    </div>
+      
         <h3>Мои офферы</h3>
         <table>
             <thead>
@@ -286,15 +366,46 @@
 </div>
 
     <script>
-        // Статистика (имитация)
-        let clicks = 120;
-        let conversions = 80;
-        let expenses = 200;
+// Статистика (имитация)
+let clicks = 200;
+let conversions = 59;
+let expenses = 80;
 
-        // Заполнение статистики
-        document.getElementById('clicks').innerText = clicks;
-        document.getElementById('conversions').innerText = conversions;
-        document.getElementById('expenses').innerText = '$' + expenses;
+// Заполнение статистики
+document.getElementById('clicks').innerText = clicks;
+document.getElementById('conversions').innerText = conversions;
+document.getElementById('expenses').innerText = '$' + expenses;
+
+// Данные для диаграммы
+const ctx = document.getElementById('statsChart').getContext('2d');
+const statsChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: ['Клики', 'Конверсии', 'Затраты'],
+        datasets: [{
+            data: [clicks, conversions, expenses],
+            backgroundColor: ['#3a7bd5', '#0073e6', '#f44336'],
+            hoverBackgroundColor: ['#3a7bd5', '#0073e6', '#e53935']
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(tooltipItem) {
+                        // Форматируем вывод: показываем метку и значение
+                        return tooltipItem.label + ': ' + tooltipItem.raw;
+                    }
+                }
+            }
+        }
+    }
+});
+
 
         // Загружаем офферы
         const offers = JSON.parse(localStorage.getItem('offers')) || [];
@@ -368,6 +479,17 @@
             // Закрытие модального окна
             closeModal();
         }
+      
+        // Получение сохранённых данных
+const savedName = localStorage.getItem('username');
+const savedEmail = localStorage.getItem('email');
+
+// Отображение данных
+document.getElementById('userName').innerText = savedName || 'Ваше имя пользователя';
+document.getElementById('userEmail').innerText = savedEmail || 'Ваш email'; // Если email не найден, отображается "Ваш email"
+
+// Установка аватара
+document.getElementById('userAvatar').src = 'https://cdn-icons-png.freepik.com/256/6017/6017267.png?ga=GA1.1.469636009.1732164694&semt=ais_hybrid';
     </script>
 
 </body>
