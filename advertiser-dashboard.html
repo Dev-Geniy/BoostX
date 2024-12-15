@@ -1,0 +1,374 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дашборд рекламодателя - Boost X</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            background-color: #3a7bd5;
+            color: white;
+            padding: 12px 20px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 30px;
+        }
+
+        .cta-button:hover {
+            background-color: #0073e6;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            width: 30%;
+        }
+
+        .stat-box h3 {
+            margin: 0;
+            font-size: 1.5em;
+            color: #3a7bd5;
+        }
+
+        .stat-box p {
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+
+        td {
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        .table-actions {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        /* Модальное окно */
+    .modal {
+        display: none; /* Скрыто по умолчанию */
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .modal-content {
+        background-color: #fff;
+        margin: 10% auto;
+        padding: 20px;
+        border-radius: 8px;
+        width: 50%;
+        max-width: 600px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .modal-header {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+        color: #3a7bd5;
+    }
+
+    .modal-body {
+        margin: 20px 0;
+    }
+
+    .modal-body input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1em;
+        transition: border 0.3s ease-in-out;
+    }
+
+    .modal-body input:focus {
+        border: 1px solid #3a7bd5;
+        outline: none;
+    }
+
+    .modal-footer {
+        text-align: right;
+    }
+
+    .btn-submit, .btn-cancel {
+        padding: 12px 18px;
+        font-size: 1.1em;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-submit {
+        background-color: #3a7bd5;
+        color: white;
+    }
+
+    .btn-submit:hover {
+        background-color: #0073e6;
+    }
+
+    .btn-cancel {
+        background-color: #f44336;
+        color: white;
+    }
+
+    .btn-cancel:hover {
+        background-color: #e53935;
+    }
+
+    .close {
+        color: #aaa;
+        font-size: 28px;
+        font-weight: bold;
+        position: absolute;
+        top: 10px;
+        right: 15px;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    /* Анимация модального окна */
+    .modal.fade-in {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .modal.fade-out {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    /* Для мобильных устройств */
+    @media (max-width: 768px) {
+        .modal-content {
+            width: 80%;
+        }
+    }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h2>Дашборд рекламодателя</h2>
+            <p>Просмотр статистики по офферам и затратам</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-box">
+                <h3>Клики</h3>
+                <p id="clicks">0</p>
+            </div>
+            <div class="stat-box">
+                <h3>Конверсии</h3>
+                <p id="conversions">0</p>
+            </div>
+            <div class="stat-box">
+                <h3>Затраты</h3>
+                <p id="expenses">$0</p>
+            </div>   
+        </div>
+
+        <h3>Мои офферы</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Тип действия</th>
+                    <th>Вознаграждение</th>
+                    <th>Статистика</th>
+                </tr>
+            </thead>
+            <tbody id="offersTable"></tbody>
+        </table>
+
+        <div class="header">
+            <button class="cta-button" onclick="openModal()">Добавить новый оффер</button>
+        </div>
+    </div>
+  
+<!-- Модальное окно -->
+<div id="offerModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Добавить новый оффер</h2>
+        </div>
+        <div class="modal-body">
+            <label for="offerName">Название оффера</label>
+            <input type="text" id="offerName" placeholder="Введите название оффера" required><br><br>
+
+            <label for="offerAction">Тип действия</label>
+            <input type="text" id="offerAction" placeholder="Введите тип действия" required><br><br>
+
+            <label for="offerReward">Вознаграждение</label>
+            <input type="number" id="offerReward" placeholder="Введите вознаграждение" required><br><br>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-submit" onclick="addOffer()">Добавить</button>
+            <button class="btn-cancel" onclick="closeModal()">Отмена</button>
+        </div>
+    </div>
+</div>
+
+    <script>
+        // Статистика (имитация)
+        let clicks = 120;
+        let conversions = 80;
+        let expenses = 200;
+
+        // Заполнение статистики
+        document.getElementById('clicks').innerText = clicks;
+        document.getElementById('conversions').innerText = conversions;
+        document.getElementById('expenses').innerText = '$' + expenses;
+
+        // Загружаем офферы
+        const offers = JSON.parse(localStorage.getItem('offers')) || [];
+        const offersTable = document.getElementById('offersTable');
+
+        offers.forEach(offer => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${offer.name}</td>
+                <td>${offer.action}</td>
+                <td>$${offer.reward}</td>
+                <td class="table-actions">
+                    <button class="cta-button" onclick="viewOfferStats('${offer.name}')">Просмотр статистики</button>
+                </td>
+            `;
+            offersTable.appendChild(row);
+        });
+
+        // Функция для просмотра статистики оффера
+        function viewOfferStats(offerName) {
+            alert(`Статистика для ${offerName}: кликов - 100, конверсий - 50, заработано - $150`);
+        }
+
+        // Функция для открытия модального окна
+        function openModal() {
+            const modal = document.getElementById('offerModal');
+            modal.classList.add('fade-in');
+            modal.style.display = 'block';
+        }
+
+        // Функция для закрытия модального окна
+        function closeModal() {
+            const modal = document.getElementById('offerModal');
+            modal.classList.remove('fade-in');
+            modal.classList.add('fade-out');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+        }
+
+        // Функция для добавления оффера
+        function addOffer() {
+            const name = document.getElementById('offerName').value;
+            const action = document.getElementById('offerAction').value;
+            const reward = document.getElementById('offerReward').value;
+
+            if (!name || !action || !reward) {
+                alert('Пожалуйста, заполните все поля.');
+                return;
+            }
+
+            const newOffer = { name, action, reward };
+
+            // Сохранение оффера в localStorage
+            const offers = JSON.parse(localStorage.getItem('offers')) || [];
+            offers.push(newOffer);
+            localStorage.setItem('offers', JSON.stringify(offers));
+
+            // Обновление таблицы без перезагрузки
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${newOffer.name}</td>
+                <td>${newOffer.action}</td>
+                <td>$${newOffer.reward}</td>
+                <td class="table-actions">
+                    <button class="cta-button" onclick="viewOfferStats('${newOffer.name}')">Просмотр статистики</button>
+                </td>
+            `;
+            offersTable.appendChild(row);
+
+            // Закрытие модального окна
+            closeModal();
+        }
+    </script>
+
+</body>
+</html>
