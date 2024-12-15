@@ -63,6 +63,22 @@
         .cta-button:hover {
             background-color: #0073e6;
         }
+        .back-button {
+            background-color: #f44336;
+            color: white;
+            padding: 12px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: block;
+            text-align: center;
+            width: 100%;
+        }
+        .back-button:hover {
+            background-color: #d32f2f;
+        }
     </style>
 </head>
 <body>
@@ -74,6 +90,8 @@
         </div>
 
         <div id="offersList"></div> <!-- Сюда будут добавляться офферы -->
+
+        <button class="back-button" onclick="goToWebmasterPage()">Назад к Дашборду</button>
 
         <script>
             // Получаем офферы из LocalStorage
@@ -91,6 +109,11 @@
                     <p>Вознаграждение: $${offer.reward}</p>`;
                 offersList.appendChild(offerDiv);
             });
+
+            // Функция для возврата на страницу вебмастера
+            function goToWebmasterPage() {
+                window.location.href = 'publisher-dashboard.html'; // Замените на реальный URL страницы вебмастера
+            }
         </script>
 
     </div>
