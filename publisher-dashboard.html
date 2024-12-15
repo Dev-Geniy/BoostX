@@ -1,0 +1,452 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дашборд веб-мастера - Boost X</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.5s ease;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center; /* Выровнять контент по вертикали относительно аватара */
+}
+
+/* Стили для аватара пользователя */
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 15px; /* Отступ между аватаром и текстом */
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column; /* Вертикальное расположение имени и email */
+}
+
+.user-details p {
+    margin: 0;
+}
+
+#userName {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #333;
+}
+
+#userEmail {
+    font-size: 0.9em;
+    color: #666; /* Светлый текст для email */
+}
+
+.forgot-password {
+    color: red; /* Устанавливаем красный цвет текста */
+    font-weight: bold; /* Жирный текст (по желанию) */
+    text-decoration: none; /* Убираем стандартное подчёркивание */
+}
+
+.forgot-password:hover {
+    text-decoration: underline; /* Подчёркивание при наведении (по желанию) */
+    opacity: 0.8; /* Лёгкое затемнение при наведении */
+}
+
+     
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .stat-box {
+            text-align: center;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            width: 30%;
+        }
+        .stat-box2 {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            box-sizing: border-box; /* Учитываем padding и border в общей ширине */
+        }
+      
+        .stat-box2 p {
+            font-size: 1.8em;
+            color: #333;
+        }
+      
+        .stat-box h3 {
+            margin: 0;
+            font-size: 1.5em;
+            color: #3a7bd5;
+        }
+        .stat-box p {
+            font-size: 1.2em;
+            color: #333;
+        }
+      }
+        .stat-box:hover {
+            transform: scale(1.05);
+            background-color: #0073e6;
+        }
+        .cta-button {
+            background-color: #3a7bd5;
+            color: white;
+            padding: 12px 20px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+        .cta-button:hover {
+            background-color: #0073e6;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+      
+        /* Модальное окно */
+        #paymentModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.3s ease;
+        }
+        #paymentModalContent {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+      
+        /* Анимация появления */
+        @keyframes fadeIn {
+        0% {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1);
+            }
+        }
+      
+        h3 {
+            color: #333;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+        }
+      
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1.1em;
+            transition: border-color 0.3s ease;
+        }
+      
+        input:focus {
+            border-color: #3a7bd5;
+            outline: none;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+      
+        .cta2-button {
+            background-color: #3a7bd5;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 48%;
+            transition: background-color 0.3s ease;
+        }
+        .cta2-button:hover {
+            background-color: #0073e6;
+        }
+        .close-button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 48%;
+            transition: background-color 0.3s ease;
+        }
+        .close-button:hover {
+            background-color: #e57373;
+        }
+        
+        /* Мобильная адаптивность */
+        @media (max-width: 480px) {
+        #paymentModalContent {
+            width: 90%;
+            padding: 20px;
+        }
+        .modal-buttons {
+            flex-direction: column;
+        }
+        .cta-button, .close-button {
+            width: 100%;
+            margin-bottom: 10px;
+            }
+        }
+      
+        canvas {
+            width: 100%;
+            height: 200px;
+            margin-top: 20px;
+        }
+      
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  
+<div class="container">
+    <div class="header">
+        <h2>Дашборд веб-мастера</h2>
+        <p>Просмотр статистики по вашим ссылкам и запрос на выплату</p>
+       </div>
+        <div class="user-info">
+            <!-- Круглый аватар -->
+            <div class="user-avatar">
+                <img src="" alt="User Avatar" id="userAvatar">
+            </div>
+            <!-- Детали пользователя -->
+            <div class="user-details">
+                <p id="userName">Ваше имя пользователя</p>
+                <p id="userEmail">Ваш email</p>
+                <p>Вы вошли как веб-мастер. <a href="login.html" class="forgot-password">Выйти</a></p>
+            </div>
+        </div>
+   
+
+
+      
+        <canvas id="earningsChart"></canvas>
+      
+       <!-- Статистика по ссылкам -->
+        <div class="stats">
+            <div class="stat-box">
+                <h3>Клики</h3>
+                <p id="clicksPublisher">0</p>
+            </div>
+            <div class="stat-box">
+                <h3>Конверсии</h3>
+                <p id="conversionsPublisher">0</p>
+            </div>
+            <div class="stat-box">
+                <h3>Заработок</h3>
+                <p id="earningsPublisher">$0</p>
+            </div>
+        </div>
+
+      
+        <h3>Мои ссылки</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Название оффера</th>
+                    <th>Персональная ссылка</th>
+                    <th>Статистика</th>
+                </tr>
+            </thead>
+            <tbody id="linksTable"></tbody>
+        </table>
+        <button class="cta-button" onclick="window.location.href='available-offers.html'">Просмотреть офферы</button
+          
+        <div class="stats">
+            <div class="stat-box2">
+                <h3>У вас доступно к выводу:</h3>
+                <p id="earningsPublisher">$300</p>
+            </div>
+          <button class="cta-button" onclick="requestPayment()">Запросить выплату</button>
+        </div>        
+
+<div id="paymentModal">
+    <div id="paymentModalContent">
+        <h3>Запрос на выплату</h3>
+        <p>Введите сумму для вывода (минимум $25):</p>
+        <input type="number" id="paymentAmount" min="25" step="0.01" placeholder="Сумма вывода" />
+        <p id="paymentError" style="color: red; display: none; font-size: 0.9em;">Недостаточно средств или сумма меньше $25!</p>
+        <div class="modal-buttons">
+            <button class="cta2-button" onclick="confirmPayment()">Подтвердить</button>
+            <button class="close-button" onclick="closeModal()">Закрыть</button>
+        </div>
+    </div>
+</div>
+
+        <script>
+            // Статистика (имитация)
+            let clicks = 150;
+            let conversions = 90;
+            let earnings = 300;
+
+            // Заполнение статистики
+            document.getElementById('clicksPublisher').innerText = clicks;
+            document.getElementById('conversionsPublisher').innerText = conversions;
+            document.getElementById('earningsPublisher').innerText = '$' + earnings;
+
+            // Загружаем ссылки веб-мастера
+            const offers = JSON.parse(localStorage.getItem('offers')) || [];
+            const linksTable = document.getElementById('linksTable');
+
+            offers.forEach(offer => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${offer.name}</td>
+                    <td><a href="${offer.link}" target="_blank">${offer.link}</a></td>
+                    <td><button class="cta-button" onclick="viewLinkStats('${offer.name}')">Просмотр статистики</button></td>
+                `;
+                linksTable.appendChild(row);
+            });
+
+            // Функция для просмотра статистики по ссылке
+            function viewLinkStats(offerName) {
+                alert(`Статистика по ссылке для ${offerName}: кликов - 100, конверсий - 50, заработано - $150`);
+            }
+
+            // Функция для запроса выплаты
+            function requestPayment() {
+                document.getElementById('paymentModal').style.display = 'flex';
+            }
+
+            // Закрыть модальное окно
+            function closeModal() {
+                document.getElementById('paymentModal').style.display = 'none';
+            }
+
+            // Подтвердить запрос на выплату
+            function confirmPayment() {
+                const paymentAmount = parseFloat(document.getElementById('paymentAmount').value);
+                if (paymentAmount < 25 || paymentAmount > earnings) {
+                    document.getElementById('paymentError').style.display = 'block';
+                } else {
+                    alert('Запрос на выплату подтвержден!');
+                    closeModal();
+                }
+            } 
+
+            // График для кликов, конверсий и заработка
+            const ctx = document.getElementById('earningsChart').getContext('2d');
+            const earningsChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['1', '2', '3', '4', '5', '6', '7'],
+                    datasets: [{
+                        label: 'Клики',
+                        data: [50, 100, 150, 200, 250, 300, 350],
+                        borderColor: '#3a7bd5',
+                        backgroundColor: 'rgba(58, 123, 213, 0.2)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Конверсии',
+                        data: [30, 60, 90, 120, 150, 180, 210],
+                        borderColor: '#ff9900',
+                        backgroundColor: 'rgba(255, 153, 0, 0.2)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Заработок ($)',
+                        data: [50, 100, 150, 200, 250, 300, 350],
+                        borderColor: '#32cd32',
+                        backgroundColor: 'rgba(50, 205, 50, 0.2)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+             
+// Получение сохранённых данных
+const savedName = localStorage.getItem('username'); // Получаем имя
+const savedEmail = localStorage.getItem('email');   // Получаем email
+
+// Отображение данных
+document.getElementById('userName').innerText = savedName || 'Ваше имя пользователя';
+document.getElementById('userEmail').innerText = savedEmail || 'Ваш email'; // Если email не найден, отображается "Ваш email"
+
+// Установка аватара
+document.getElementById('userAvatar').src = 'https://cdn-icons-png.freepik.com/256/6017/6017267.png?ga=GA1.1.469636009.1732164694&semt=ais_hybrid';
+
+
+
+        </script>
+    </div>
+
+</body>
+</html>
