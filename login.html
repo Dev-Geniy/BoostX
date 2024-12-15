@@ -1,0 +1,226 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход - Boost X CPA Network</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: url('https://img.freepik.com/free-photo/hacker-with-laptop_23-2147985338.jpg?t=st=1734269048~exp=1734272648~hmac=37d63d281612ab1e03d34b3d336cb21999b001c90f4b5de6e501cb1ff6ced950&w=900') no-repeat center center fixed;
+            background-size: cover;
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            color: #fff;
+        }
+        .login-form {
+            width: 400px;
+            margin: 50px auto;
+            background-color: rgba(255, 255, 255, 0.6);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .login-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2em;
+            font-weight: bold;
+            color: #3a7bd5;
+        }
+        .login-form p {
+            font-size: 1.1em;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .input-field {
+            width: 100%;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 1.1em;
+            background-color: #f9f9f9;
+        }
+        .cta-button {
+            width: 100%;
+            padding: 15px;
+            background-color: #3a7bd5;
+            color: white;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .cta-button:hover {
+            background-color: #0073e6;
+        }
+        .input-field:focus, .cta-button:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(58, 123, 213, 0.8);
+        }
+.forgot-password {
+    color: #3a7bd5;
+    font-size: 0.9em;
+    text-decoration: none;
+    display: inline; /* Убираем перенос и делаем элемент строчным */
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+        /* Модальное окно */
+        .modal {
+            display: none; /* Скрыто по умолчанию */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4); /* Черный фон с прозрачностью */
+            overflow: auto;
+            font-size: 1.1em;
+            color: #333;
+        }
+        /* Стили для модального окна */
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 30px;
+    border-radius: 10px;
+    width: 400px;
+    max-width: 100%; /* Обеспечивает адаптивность */
+    box-sizing: border-box; /* Включает отступы и границы в ширину */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Стили для поля ввода */
+.input-field {
+    width: 100%; /* Делает поле ввода на 100% ширины контейнера */
+    max-width: 100%; /* Огранивает поле ввода, чтобы оно не выходило за пределы */
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 1.1em;
+    background-color: #f9f9f9;
+    box-sizing: border-box; /* Включает отступы и границы в ширину */
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="login-form">
+        <h2>Вход в Boost X</h2>
+        <form id="loginForm">
+            <input type="email" id="email" class="input-field" placeholder="Ваш email" required>
+            <input type="password" id="password" class="input-field" placeholder="Пароль" required>
+            <button type="submit" class="cta-button">Войти</button>
+        </form>
+      <a href="#" id="forgotPasswordLink" class="forgot-password">Забыли пароль?</a>
+      <p>У меня нет аккаунта: <a href="login.html" class="forgot-password">Зарегистрироваться</a></p>
+    </div>
+
+    <!-- Модальное окно для восстановления пароля -->
+    <div id="resetPasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal"></span>
+            <h3>Восстановление пароля</h3>
+            <p>Введите ваш email, чтобы получить ссылку для восстановления пароля.</p>
+            <form id="resetPasswordForm">
+                <input type="email" id="resetEmail" class="input-field" placeholder="Ваш email" required>
+                <button type="submit" class="cta-button">Отправить запрос</button>
+            </form>
+            <p id="resetMessage" style="color: #ff0000; display: none;">Ошибка: Неверный email или другие проблемы.</p>
+        </div>
+    </div>
+
+    <script>
+        // Получаем элементы для формы входа
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Сравниваем с сохраненными данными из LocalStorage
+            const storedEmail = localStorage.getItem('email');
+            const storedPassword = localStorage.getItem('password');
+
+            if (email === storedEmail && password === storedPassword) {
+                // Переход на соответствующий дашборд
+                const role = localStorage.getItem('role');
+                if (role === 'advertiser') {
+                    window.location.href = 'advertiser-dashboard.html';
+                } else {
+                    window.location.href = 'publisher-dashboard.html';
+                }
+            } else {
+                alert('Неверный email или пароль');
+            }
+        });
+
+        // Получаем элементы для модального окна
+        const modal = document.getElementById("resetPasswordModal");
+        const closeModal = document.getElementById("closeModal");
+        const resetPasswordForm = document.getElementById("resetPasswordForm");
+        const resetEmail = document.getElementById("resetEmail");
+        const resetMessage = document.getElementById("resetMessage");
+
+        // Открытие модального окна
+        document.getElementById("forgotPasswordLink").addEventListener("click", function(event) {
+            event.preventDefault();
+            modal.style.display = "block";
+        });
+
+        // Закрытие модального окна
+        closeModal.addEventListener("click", function() {
+            modal.style.display = "none";
+        });
+
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        };
+
+        // Обработка отправки формы восстановления пароля
+        resetPasswordForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const email = resetEmail.value;
+
+            // Проверка на валидность email
+            if (!validateEmail(email)) {
+                resetMessage.textContent = "Пожалуйста, введите корректный email.";
+                resetMessage.style.display = "block";
+                return;
+            }
+
+            // Отправка запроса на сервер
+            sendResetPasswordRequest(email);
+        });
+
+        // Функция для валидации email
+        function validateEmail(email) {
+            const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            return re.test(email);
+        }
+
+        // Функция отправки запроса на восстановление пароля
+        function sendResetPasswordRequest(email) {
+            // Здесь будет запрос на сервер. Для примера мы просто имитируем успешный ответ.
+            setTimeout(function() {
+                // В реальной ситуации здесь будет ajax-запрос или fetch к серверу, который отправит email с инструкциями.
+                alert("На ваш email была отправлена ссылка для восстановления пароля.");
+                modal.style.display = "none";
+            }, 1000);
+        }
+    </script>
+
+</body>
+</html>
