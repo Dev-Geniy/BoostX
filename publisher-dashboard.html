@@ -288,7 +288,6 @@
 
       
         <canvas id="earningsChart"></canvas>
-      
        <!-- Статистика по ссылкам -->
         <div class="stats">
             <div class="stat-box">
@@ -306,7 +305,7 @@
         </div>
 
       
-        <h3>Мои ссылки</h3>
+        <h3>Мои оферы и ссылки:</h3>
         <table>
             <thead>
                 <tr>
@@ -314,18 +313,34 @@
                     <th>Персональная ссылка</th>
                     <th>Статистика</th>
                 </tr>
+                <tr>
+                    <th>Тут будет ваш офер 1</th>
+                    <th> - </th>
+                    <th> - </th>
+                </tr>
+                <tr>
+                    <th>Тут будет ваш офер 2</th>
+                    <th> - </th>
+                    <th> - </th>
+                </tr>
+                  <tr>
+                    <th>Тут будет ваш офер 3</th>
+                    <th> - </th>
+                    <th> - </th>
+                </tr>
             </thead>
             <tbody id="linksTable"></tbody>
         </table>
-        <button class="cta-button" onclick="window.location.href='available-offers.html'">Просмотреть офферы</button
-          
+        <button class="cta-button" onclick="window.location.href='available-offers.html'">Просмотреть доступные офферы</button>
+        
         <div class="stats">
             <div class="stat-box2">
                 <h3>У вас доступно к выводу:</h3>
-                <p id="earningsPublisher">$300</p>
+                <p id="earningsPublisher">$1300</p>
             </div>
+          </div>  
           <button class="cta-button" onclick="requestPayment()">Запросить выплату</button>
-        </div>        
+              
 
 <div id="paymentModal">
     <div id="paymentModalContent">
@@ -344,7 +359,7 @@
             // Статистика (имитация)
             let clicks = 150;
             let conversions = 90;
-            let earnings = 300;
+            let earnings = 1300;
 
             // Заполнение статистики
             document.getElementById('clicksPublisher').innerText = clicks;
