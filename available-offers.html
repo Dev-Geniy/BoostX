@@ -1,0 +1,101 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Доступные офферы - Boost X</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+      
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .offer-box {
+            padding: 20px;
+            border: 1px solid #ddd;
+            margin: 15px 0;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .offer-box h3 {
+            margin: 0;
+            font-size: 1.5em;
+            color: #3a7bd5;
+        }
+        .offer-box p {
+            font-size: 1.2em;
+            color: #333;
+        }
+        .cta-button {
+            background-color: #3a7bd5;
+            color: white;
+            padding: 12px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .cta-button:hover {
+            background-color: #0073e6;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h2>Доступные офферы</h2>
+            <p>Выберите оффер и получите уникальную ссылку для продвижения</p>
+        </div>
+
+        <div id="offersList"></div> <!-- Сюда будут добавляться офферы -->
+
+        <script>
+            // Получаем офферы из LocalStorage
+            const offers = JSON.parse(localStorage.getItem('offers')) || [];
+            const offersList = document.getElementById('offersList');
+
+            // Выводим офферы
+            offers.forEach(offer => {
+                const offerDiv = document.createElement('div');
+                offerDiv.className = 'offer-box';
+                offerDiv.innerHTML = `
+                    <h3>${offer.name}</h3>
+                    <p>${offer.description}</p>
+                    <p>Тип действия: ${offer.action}</p>
+                    <p>Вознаграждение: $${offer.reward}</p>
+                    <a href="${offer.link}" target="_blank" class="cta-button">Получить ссылку</a>
+                `;
+                offersList.appendChild(offerDiv);
+            });
+        </script>
+
+    </div>
+
+</body>
+</html>
