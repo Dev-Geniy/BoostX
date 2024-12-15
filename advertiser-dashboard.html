@@ -12,17 +12,6 @@
             background-color: #f4f4f4;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: -1;
-        }
-
         .container {
             width: 90%;
             margin: 20px auto;
@@ -431,6 +420,7 @@ canvas {
                     <th>Название</th>
                     <th>Тип действия</th>
                     <th>Вознаграждение</th>
+                    <th>Ссылка</th>
                     <th>Статистика</th>
                 </tr>
             </thead>
@@ -468,7 +458,7 @@ canvas {
                 </div>
             </div>
         </div>
-
+      
         <div class="telegram-info">
             <p>Если ваш вопрос не решен, можете связаться с нами через <a href="https://t.me/zapros1388" target="_blank">Telegram</a>.</p>
         </div>
@@ -489,6 +479,9 @@ canvas {
 
             <label for="offerAction">Тип действия</label>
             <input type="text" id="offerAction" placeholder="Введите тип действия" required><br><br>
+            
+            <label for="offerLink">Ссылка</label>
+            <input type="url" id="offerLink" placeholder="Введите ссылку" required><br><br>
 
             <label for="offerReward">Вознаграждение</label>
             <input type="number" id="offerReward" placeholder="Введите вознаграждение" required><br><br>
@@ -543,77 +536,81 @@ const statsChart = new Chart(ctx, {
 
 
         // Загружаем офферы
-        const offers = JSON.parse(localStorage.getItem('offers')) || [];
-        const offersTable = document.getElementById('offersTable');
+const offers = JSON.parse(localStorage.getItem('offers')) || [];
+const offersTable = document.getElementById('offersTable');
 
-        offers.forEach(offer => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${offer.name}</td>
-                <td>${offer.action}</td>
-                <td>$${offer.reward}</td>
-                <td class="table-actions">
-                    <button class="cta-button" onclick="viewOfferStats('${offer.name}')">Просмотр статистики</button>
-                </td>
-            `;
-            offersTable.appendChild(row);
-        });
+offers.forEach(offer => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+        <td>${offer.name}</td>
+        <td>${offer.action}</td>
+        <td>$${offer.reward}</td>
+        <td><a href="${offer.link}" target="_blank">${offer.link}</a></td>
+        <td class="table-actions">
+            <button class="cta-button" onclick="viewOfferStats('${offer.name}')">Просмотр статистики</button>
+        </td>
+    `;
+    offersTable.appendChild(row);
+});
 
-        // Функция для просмотра статистики оффера
-        function viewOfferStats(offerName) {
-            alert(`Статистика для ${offerName}: кликов - 100, конверсий - 50, заработано - $150`);
-        }
+// Функция для просмотра статистики оффера
+function viewOfferStats(offerName) {
+    alert(`Статистика для ${offerName}: кликов - 100, конверсий - 50, заработано - $150`);
+}
 
-        // Функция для открытия модального окна
-        function openModal() {
-            const modal = document.getElementById('offerModal');
-            modal.classList.add('fade-in');
-            modal.style.display = 'block';
-        }
+// Функция для открытия модального окна
+function openModal() {
+    const modal = document.getElementById('offerModal');
+    modal.classList.add('fade-in');
+    modal.style.display = 'block';
+}
 
-        // Функция для закрытия модального окна
-        function closeModal() {
-            const modal = document.getElementById('offerModal');
-            modal.classList.remove('fade-in');
-            modal.classList.add('fade-out');
-            setTimeout(() => {
-                modal.style.display = 'none';
-            }, 300);
-        }
+// Функция для закрытия модального окна
+function closeModal() {
+    const modal = document.getElementById('offerModal');
+    modal.classList.remove('fade-in');
+    modal.classList.add('fade-out');
+    setTimeout(() => {
+        modal.style.display = 'none';
+    }, 300);
+}
 
-        // Функция для добавления оффера
-        function addOffer() {
-            const name = document.getElementById('offerName').value;
-            const action = document.getElementById('offerAction').value;
-            const reward = document.getElementById('offerReward').value;
+// Функция для добавления оффера
+function addOffer() {
+    const name = document.getElementById('offerName').value;
+    const action = document.getElementById('offerAction').value;
+    const reward = document.getElementById('offerReward').value;
+    const link = document.getElementById('offerLink').value;
 
-            if (!name || !action || !reward) {
-                alert('Пожалуйста, заполните все поля.');
-                return;
-            }
+    if (!name || !action || !reward || !link) {
+        alert('Пожалуйста, заполните все поля.');
+        return;
+    }
 
-            const newOffer = { name, action, reward };
+    const newOffer = { name, action, reward, link };
 
-            // Сохранение оффера в localStorage
-            const offers = JSON.parse(localStorage.getItem('offers')) || [];
-            offers.push(newOffer);
-            localStorage.setItem('offers', JSON.stringify(offers));
+    // Сохранение оффера в localStorage
+    const offers = JSON.parse(localStorage.getItem('offers')) || [];
+    offers.push(newOffer);
+    localStorage.setItem('offers', JSON.stringify(offers));
 
-            // Обновление таблицы без перезагрузки
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${newOffer.name}</td>
-                <td>${newOffer.action}</td>
-                <td>$${newOffer.reward}</td>
-                <td class="table-actions">
-                    <button class="cta-button" onclick="viewOfferStats('${newOffer.name}')">Просмотр статистики</button>
-                </td>
-            `;
-            offersTable.appendChild(row);
+    // Обновление таблицы без перезагрузки
+    const row = document.createElement('tr');
+    row.innerHTML = `
+        <td>${newOffer.name}</td>
+        <td>${newOffer.action}</td>
+        <td>$${newOffer.reward}</td>
+        <td><a href="${newOffer.link}" target="_blank">${newOffer.link}</a></td>
+        <td class="table-actions">
+            <button class="cta-button" onclick="viewOfferStats('${newOffer.name}')">Просмотр статистики</button>
+        </td>
+    `;
+    offersTable.appendChild(row);
 
-            // Закрытие модального окна
-            closeModal();
-        }
+    // Закрытие модального окна
+    closeModal();
+}
+
       
         // Получение сохранённых данных
 const savedName = localStorage.getItem('username');
