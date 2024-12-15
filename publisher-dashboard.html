@@ -38,16 +38,15 @@
 
 .user-info {
     display: flex;
-    align-items: center; /* Выровнять контент по вертикали относительно аватара */
+    align-items: center;
 }
 
-/* Стили для аватара пользователя */
 .user-avatar {
     width: 50px;
     height: 50px;
     border-radius: 50%;
     overflow: hidden;
-    margin-right: 15px; /* Отступ между аватаром и текстом */
+    margin-right: 15px;
 }
 
 .user-avatar img {
@@ -58,7 +57,7 @@
 
 .user-details {
     display: flex;
-    flex-direction: column; /* Вертикальное расположение имени и email */
+    flex-direction: column;
 }
 
 .user-details p {
@@ -73,19 +72,121 @@
 
 #userEmail {
     font-size: 0.9em;
-    color: #666; /* Светлый текст для email */
+    color: #666;
 }
 
 .forgot-password {
-    color: red; /* Устанавливаем красный цвет текста */
-    font-weight: bold; /* Жирный текст (по желанию) */
-    text-decoration: none; /* Убираем стандартное подчёркивание */
+    color: red; 
+    font-weight: bold;
+    text-decoration: none;
 }
 
 .forgot-password:hover {
-    text-decoration: underline; /* Подчёркивание при наведении (по желанию) */
-    opacity: 0.8; /* Лёгкое затемнение при наведении */
+    text-decoration: underline;
+    opacity: 0.8;
 }
+      
+.support-section {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 1.1em;
+}
+
+.forgot-password2 {
+    color: red;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.forgot-password2:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+}
+
+.support-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+}
+
+.support-modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 600px;
+    text-align: left;
+}
+
+.close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.faq {
+    margin-top: 20px;
+}
+
+.faq-item {
+    margin-bottom: 15px;
+}
+
+.faq-question {
+    background-color: #3a7bd5;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.1em;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+}
+
+.faq-question:hover {
+    background-color: #0073e6;
+}
+
+.faq-answer {
+    display: none;
+    padding-left: 20px;
+    font-size: 1em;
+    margin-top: 10px;
+}
+
+.telegram-info {
+    margin-top: 20px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .support-modal-content {
+        width: 90%;
+        padding: 20px;
+    }
+}
+
 
      
         .stats {
@@ -109,7 +210,7 @@
             background-color: #fff;
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
             width: 100%;
-            box-sizing: border-box; /* Учитываем padding и border в общей ширине */
+            box-sizing: border-box;
         }
       
         .stat-box2 p {
@@ -158,7 +259,6 @@
             text-align: center;
         }
       
-        /* Модальное окно */
         #paymentModal {
             display: none;
             position: fixed;
@@ -183,7 +283,6 @@
             animation: fadeIn 0.5s ease-in-out;
         }
       
-        /* Анимация появления */
         @keyframes fadeIn {
         0% {
             opacity: 0;
@@ -251,7 +350,6 @@
             background-color: #e57373;
         }
         
-        /* Мобильная адаптивность */
         @media (max-width: 480px) {
         #paymentModalContent {
             width: 90%;
@@ -284,12 +382,12 @@
         <p>Просмотр статистики по вашим ссылкам и запрос на выплату</p>
        </div>
         <div class="user-info">
-            <!-- Круглый аватар -->
-            <div class="user-avatar">
+
+          <div class="user-avatar">
                 <img src="" alt="User Avatar" id="userAvatar">
             </div>
-            <!-- Детали пользователя -->
-            <div class="user-details">
+
+          <div class="user-details">
                 <p id="userName">Ваше имя пользователя</p>
                 <p id="userEmail">Ваш email</p>
                 <p>Вы вошли как веб-мастер. <a href="login.html" class="forgot-password">Выйти</a></p>
@@ -300,7 +398,7 @@
 
       
         <canvas id="earningsChart"></canvas>
-       <!-- Статистика по ссылкам -->
+
         <div class="stats">
             <div class="stat-box">
                 <h3>Клики</h3>
@@ -352,7 +450,42 @@
             </div>
           </div>  
           <button class="cta-button" onclick="requestPayment()">Запросить выплату</button>
-              
+
+<div class="support-section">
+    <p>Техподдержка: <a href="javascript:void(0)" class="forgot-password2" id="contactSupport">Связаться</a></p>
+</div>
+
+<div id="supportModal" class="support-modal">
+    <div class="support-modal-content">
+        <span class="close">&times;</span>
+        <h2>Обратная связь и часто задаваемые вопросы</h2>
+
+        <div class="support-info">
+            <p><strong>Рабочее время:</strong> Пн-Пт с 9:00 до 18:00</p>
+        </div>
+
+        <div class="faq">
+            <h3>Часто задаваемые вопросы:</h3>
+            <div class="faq-item">
+                <button class="faq-question">Как связаться с технической поддержкой?</button>
+                <div class="faq-answer">
+                    <p>Вы можете связаться с нами через эту форму, а также по телефону или через Telegram.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">Как получить помощь по аккаунту?</button>
+                <div class="faq-answer">
+                    <p>Для получения помощи по аккаунту, пожалуйста, отправьте запрос в наш Telegram.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="telegram-info">
+            <p>Если ваш вопрос не решен, можете связаться с нами через <a href="https://t.me/zapros1388" target="_blank">Telegram</a>.</p>
+        </div>
+    </div>
+</div>
+
 
 <div id="paymentModal">
     <div id="paymentModalContent">
@@ -369,9 +502,9 @@
 
         <script>
             // Статистика (имитация)
-            let clicks = 150;
-            let conversions = 90;
-            let earnings = 1300;
+            let clicks = 0;
+            let conversions = 0;
+            let earnings = 0;
 
             // Заполнение статистики
             document.getElementById('clicksPublisher').innerText = clicks;
@@ -460,8 +593,8 @@
             });
              
 // Получение сохранённых данных
-const savedName = localStorage.getItem('username'); // Получаем имя
-const savedEmail = localStorage.getItem('email');   // Получаем email
+const savedName = localStorage.getItem('username');
+const savedEmail = localStorage.getItem('email');
 
 // Отображение данных
 document.getElementById('userName').innerText = savedName || 'Ваше имя пользователя';
@@ -471,6 +604,31 @@ document.getElementById('userEmail').innerText = savedEmail || 'Ваш email'; /
 document.getElementById('userAvatar').src = 'https://cdn-icons-png.freepik.com/256/6017/6017267.png?ga=GA1.1.469636009.1732164694&semt=ais_hybrid';
 
 
+// Открытие модального окна при клике на "Связаться"
+document.getElementById('contactSupport').addEventListener('click', function() {
+    document.getElementById('supportModal').style.display = 'flex';
+});
+
+// Закрытие модального окна при клике на кнопку "×"
+document.querySelector('.close').addEventListener('click', function() {
+    document.getElementById('supportModal').style.display = 'none';
+});
+
+// Закрытие модального окна при клике вне модального окна
+window.addEventListener('click', function(event) {
+    if (event.target == document.getElementById('supportModal')) {
+        document.getElementById('supportModal').style.display = 'none';
+    }
+});
+
+// Раскрытие/сокрытие ответов в FAQ
+const faqQuestions = document.querySelectorAll('.faq-question');
+faqQuestions.forEach(function(question) {
+    question.addEventListener('click', function() {
+        const answer = this.nextElementSibling;
+        answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+    });
+});
 
         </script>
     </div>
